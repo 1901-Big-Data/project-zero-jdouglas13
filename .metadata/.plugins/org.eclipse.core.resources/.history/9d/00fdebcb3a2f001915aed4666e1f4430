@@ -1,0 +1,16 @@
+package com.jdbcbank.jdouglas.dao;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.jdbcbank.jdouglas.model.Account;
+
+public class AccountOracle implements AccountDao {
+
+	@Override
+	public Optional<List<Account>> view_accounts(int user_id) {
+
+		return null;
+	}
+
+}

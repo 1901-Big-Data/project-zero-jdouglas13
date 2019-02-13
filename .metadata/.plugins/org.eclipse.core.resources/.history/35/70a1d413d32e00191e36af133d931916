@@ -1,0 +1,6 @@
+package com.jdbcbank.jdouglas.model;
+
+public class BankAccount implements Serializable {
+
+	
+}

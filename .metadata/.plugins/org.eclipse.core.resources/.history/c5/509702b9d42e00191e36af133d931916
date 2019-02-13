@@ -1,0 +1,11 @@
+package com.jdbcbank.jdouglas.dao;
+
+import java.util.Optional;
+
+import com.jdbcbank.jdouglas.model.User;
+
+public interface UserDao {
+
+	Optional<User> login(String username, String password) throws Exception;
+	Optional<User> add_user(String firstname, String mi, String lastname, String username, String password, Boolean isAdmin);
+}

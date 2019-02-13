@@ -1,0 +1,42 @@
+package com.jdbcbank.jdouglas.service;
+
+import java.util.Optional;
+
+import com.jdbcbank.jdouglas.dao.UserDao;
+import com.jdbcbank.jdouglas.dao.UserOracle;
+import com.jdbcbank.jdouglas.model.User;
+
+public class UserService {
+
+	private static UserService service;
+	private static UserDao dao = UserOracle.getDao();
+	
+	private UserService() {
+		
+	}
+	
+	public static UserService getService() {
+		if(service == null) {
+			service = new UserService();
+		}
+		
+		return service;
+	}
+	
+	/**
+	 * Returns the user object that has logged in
+	 * 
+	 * Exception will be thrown for incorrect login information
+	 * Empty Optional is for the connection or other back end error
+	 * 
+	 * @return
+	 * @throws Exception
+	 */
+	public Optional<User> attempt_login(String username, String password) throws Exception {
+		return dao.attempt_login(username, password);
+	}
+	
+	public Optional<User> add_user(String firstname, String mi, String lastname, String username, String password, Boolean isAdmin) {
+		return dao.add_user(firstname, mi, lastname, username, password, isAdmin);
+	}
+}

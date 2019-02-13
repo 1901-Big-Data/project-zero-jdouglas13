@@ -1,0 +1,59 @@
+package com.jdbcbank.jdouglas.dao;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import com.jdbcbank.jdouglas.model.Account;
+import com.jdbcbank.jdouglas.util.ConnectionUtil;
+
+public class AccountOracle implements AccountDao {
+
+	private static AccountOracle instance;
+	
+	private AccountOracle() {
+		
+	}
+	
+	public static AccountDao getDao() {
+		if(instance == null) {
+			instance = new AccountOracle();
+		}
+		
+		return instance;
+	}
+	
+	@Override
+	public Optional<List<Account>> get_user_accounts(String firstname, String lastname) {
+		Connection con = ConnectionUtil.getConnection();
+		
+		if (con == null) {
+			return Optional.empty();
+		}
+		
+		try {
+			String sqlQueryString = "Select * from bank_accounts join users on user_id = bank_accounts.user_id";
+			
+			PreparedStatement preparedStatement = con.prepareStatement(sqlQueryString);
+			//preparedStatement.setString(1, firstname);
+			//preparedStatement.setString(2, lastname);
+			ResultSet resultSet = preparedStatement.executeQuery();
+			
+			List<Account> accounts = new ArrayList<Account>();
+			
+			while (resultSet.next()) {
+				accounts.add(new Account(resultSet.getString(firstname), resultSet.getString(lastname)));
+			}
+			return Optional.of(accounts);
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return Optional.empty();
+	}
+}

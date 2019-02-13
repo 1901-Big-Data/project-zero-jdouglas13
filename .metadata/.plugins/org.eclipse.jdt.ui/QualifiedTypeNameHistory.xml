@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.dao.UserDao"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.dao.UserOracle"/>
+<fullyQualifiedTypeName name="java.sql.CallableStatement"/>
+<fullyQualifiedTypeName name="java.sql.Types"/>
+<fullyQualifiedTypeName name="java.io.InputStream"/>
+<fullyQualifiedTypeName name="java.util.Properties"/>
+<fullyQualifiedTypeName name="java.io.FileInputStream"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.model.User"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.service.UserService"/>
+<fullyQualifiedTypeName name="java.util.NoSuchElementException"/>
+<fullyQualifiedTypeName name="java.util.Scanner"/>
+<fullyQualifiedTypeName name="java.lang.String"/>
+<fullyQualifiedTypeName name="java.lang.System"/>
+<fullyQualifiedTypeName name="java.util.Optional"/>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.io.Serializable"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.util.ConnectionUtil"/>
+<fullyQualifiedTypeName name="java.sql.Connection"/>
+<fullyQualifiedTypeName name="java.sql.PreparedStatement"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.dao.AccountDao"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.dao.AccountOracle"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.service.AccountService"/>
+<fullyQualifiedTypeName name="com.jdbcbank.jdouglas.model.Account"/>
+</qualifiedTypeNameHistroy>

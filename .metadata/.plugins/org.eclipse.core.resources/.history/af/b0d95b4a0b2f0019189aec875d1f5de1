@@ -1,0 +1,188 @@
+package com.jdbcbank.jdouglas.application;
+
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+
+import com.jdbcbank.jdouglas.model.User;
+import com.jdbcbank.jdouglas.service.AccountService;
+import com.jdbcbank.jdouglas.service.UserService;
+
+public class Application {
+
+	public static void main(String[] args) {
+		
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println("$                                                             $");
+		System.out.println("$                    Welcome to JDBC Bank!                    $");
+		System.out.println("$                                                             $");
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println();
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("New user (Yes or No)? ");
+		String answer = scanner.nextLine();
+		
+		answer = answer.substring(0, 1).toLowerCase();
+		
+		try {
+			switch (answer) {
+				case "y": createNewUser();
+				  		  break;
+				case "n": userLogin();
+				  		  break;
+				default:  System.out.println("Invalid input");
+				  		  System.exit(0);
+			}
+		} finally {
+			scanner.close();
+		}
+		
+	}
+	
+	public static void userLogin() {
+		
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println("$                                                             $");
+		System.out.println("$                    JDBC Bank User Login                     $");
+		System.out.println("$                                                             $");
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println();		
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("Enter username: ");
+		String username = scanner.nextLine();
+		
+		System.out.print("Enter password: ");
+		String password = scanner.nextLine();
+		System.out.println();
+				 
+		try {			
+			User user = UserService.getService().attempt_login(username, password).get();
+			String adminMsg = (user.isAdmin()) ? " you are admin" : " you are not admin";
+			System.out.println("Welcome " + user.getUsername() + adminMsg);
+			if (user.isAdmin())
+				displayAdminMenu();
+			else
+				displayUserMenu();
+		} catch(NoSuchElementException e) {
+			System.out.println("Service is down sorry \\(^_^)/");
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+		} finally {
+			scanner.close();
+		}
+		
+	}
+	
+	public static void createNewUser() {
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println("$                   New JDBC User Creation                    $");
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println();
+		
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.print("Enter first name: ");
+		String firstname = scanner.nextLine();
+		
+		System.out.print("Enter middle initial: ");
+		String mi = scanner.nextLine();
+		
+		System.out.print("Enter last name: ");
+		String lastname = scanner.nextLine();
+		
+		String fullName = firstname + " " + lastname;
+		
+		String username = generateUsername(fullName);
+		
+		System.out.println("Your username will be " + username + "\n");
+		
+		System.out.print("Enter a password for " + username + ": ");
+		String password = scanner.nextLine();
+
+		try {			
+			UserService.getService().add_user(firstname, mi, lastname, username, password, false).get();
+			System.out.println();
+			System.out.println("Success: User Account Created for " + firstname + " " + lastname + "\n\n\tUsername is " + username);
+			System.out.println();
+			System.out.println("\tIf your account needs elevated user privileges,\ncontact a JDBC administrator for assistance.");
+			System.out.println();			
+			userLogin();
+		} catch (NoSuchElementException e) {
+			System.out.println("Something went wrong");
+		} finally {
+			scanner.close();
+		}
+		
+	}
+	
+	private static String generateUsername(String fullName) {
+		String generatedUsername;
+		
+		String[] usernameParts = fullName.split(" ");
+		
+		
+		generatedUsername = usernameParts[0].substring(0, 1).toLowerCase() + usernameParts[1].substring(0, 1).toLowerCase() +
+				usernameParts[1].substring(1).toLowerCase();
+				
+		
+		return generatedUsername;
+	}
+	
+	public static void displayAdminMenu() {
+		Scanner scanner = new Scanner(System.in);
+		
+		System.out.println();
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println("$               JDBC Administrator Options Menu               $");
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println();
+		System.out.println("\t1. View user account(s) and balance(s).");
+		System.out.println("\t2. Create a new user account.");
+		System.out.println("\t3. Delete an existing user account.");
+		System.out.println("\t4. Add/Remove administrator privileges in a user account.");
+		System.out.println("\t5. Perform transaction(s) (Deposits/Withdrawals).");
+		System.out.println("\t6. Logout.");
+		
+		System.out.print("Enter option number: ");
+		Integer selection = scanner.nextInt();
+		
+		if (selection == 1) {
+			
+			System.out.print("Enter account holder's first and last name: ");
+			String acctUsersFullName = scanner.nextLine();
+			
+			String[] fullNameSplit = acctUsersFullName.split(" ");
+			
+			String firstname = fullNameSplit[0];
+			String lastname = fullNameSplit[1];
+			
+			try {
+				AccountService.getService().get_user_accounts(firstname, lastname).get();
+			} catch (NoSuchElementException e) {
+				System.out.println("Something went wrong");
+			} finally {
+				scanner.close();
+			}
+			
+		}
+		
+		
+	}
+	
+	public static void displayUserMenu() {
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println("$                JDBC User Banking Options Menu               $");
+		System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$");
+		System.out.println();
+		System.out.println("\t1. View account(s) and balance(s).");
+		System.out.println("\t2. Perform transaction(s) (Deposits/Withdrawals).");
+		System.out.println("\t3. Logout.");
+		
+	}
+}

@@ -1,0 +1,5 @@
+package com.jdbcbank.jdouglas.dao;
+
+public interface BankAccountDao {
+
+}

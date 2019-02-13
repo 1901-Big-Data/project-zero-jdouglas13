@@ -1,0 +1,10 @@
+package com.jdbcbank.jdouglas.dao;
+
+import java.util.Optional;
+
+import com.jdbcbank.jdouglas.model.Account;
+
+public interface AccountDao {
+
+	Optional<Account> get_user_account(String firstname, String lastname, Integer bankAccountId, Double accountBalance);
+}

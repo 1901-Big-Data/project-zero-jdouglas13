@@ -1,0 +1,5 @@
+package com.jdbcbank.jdouglas.service;
+
+public class UserService {
+
+}
